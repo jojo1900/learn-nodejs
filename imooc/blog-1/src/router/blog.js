@@ -18,13 +18,18 @@ const handleBlogRouter = (req, res) => {
     if (method === "GET" && req.path === "/api/blog/list") {
         const author = req.query.author || ""
         const keyword = req.query.keyword || ""
-        const listData = getBlogList(author, keyword)
-        return new SuccessModel(listData)
+        const result = getBlogList(author, keyword)
+        return result.then(listData => {
+            return new SuccessModel(listData)
+        })
     }
     //获取博客内容
     if (method === "GET" && req.path === "/api/blog/detail") {
-        const detailData = getBlogDetail(id)
-        return new SuccessModel(detailData)
+        const result = getBlogDetail(id)
+        // return new SuccessModel(detailData)
+        return result.then(content => {
+            return new SuccessModel(content)
+        })
     }
     //新增博客
     if (method === "POST" && req.path === "/api/blog/new") {
